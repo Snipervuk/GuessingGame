@@ -79,16 +79,9 @@ int main()
 		MainMenu();
 		std::cin >> gameMode;
 
-		if (gameMode < 1 || gameMode > 5)
-		{
-			NotAValidOption();
-		}
-		else
-		{
-			startGame = true;
-			break;
-		}
-
+		if (gameMode < 1 || gameMode > 5) NotAValidOption();
+		
+		else startGame = true; break;
 	} while (gameMode < 1 || gameMode > 5 || startGame == false);
 
 	while (startGame == true && gameMode != 5)
@@ -100,41 +93,147 @@ int main()
 			{
 			case 1:									//Easy Mode
 
-			ClearConsole();
-			chances = 5;
-			randomnumberToGuess = (rand() % 10) + 1;
-			do
+				ClearConsole();
+				chances = 5;
+				randomnumberToGuess = (rand() % 10) + 1;
+				do
+				{
+					std::cout << "\n";
+					std::cout << "Number is " << randomnumberToGuess << "\n";
+					std::cout << "You have " << chances << " chances left\n";
+					std::cout << "Guess the number between 0 to 10: ";
+					std::cin >> userguess;
+					--chances;
+
+					//Higher
+					if (userguess < randomnumberToGuess) HigherNumberLine();
+
+					//Lower
+					else if (userguess != randomnumberToGuess) LowerNumberLine();
+
+					if (userguess == randomnumberToGuess)
+					{
+						startGame = false; //this might need to be removed
+
+						std::cout << "\n";
+						std::cout << "-------------------------------------------------------------------------\n";
+						std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
+						std::cout << "-------------------------------------------------------------------------\n";
+						std::cout << "\n";
+						std::cout << "\n";
+						std::cout << "Would you like to play again? (Y/N): ";
+						std::cin.ignore();
+						std::getline(std::cin, playAgain);
+
+						if (playAgain == "Y" || playAgain == "y")
+						{
+							//PlayAgain Function goes here
+							do
+							{
+								ClearConsole();
+								MainMenu();
+								std::cin >> gameMode;
+								std::cin.ignore();
+
+								if (gameMode < 1 || gameMode > 5) NotAValidOption();
+								else startGame = true;
+							} while (gameMode < 1 || gameMode > 5 || startGame == false);
+						}
+						else ThanksForPlaying();
+					}
+				} while (userguess != randomnumberToGuess && chances != 0);
+
+				//Game lose Logic
+				if (chances == 0 && userguess != randomnumberToGuess)
+				{
+					GameOverMenu();
+
+					//readline logic here
+					std::cin.ignore();
+					std::getline(std::cin, playAgain);
+
+					//Higher
+					if (userguess < randomnumberToGuess) HigherNumberLine();
+			
+					//Lower
+					else if (userguess != randomnumberToGuess) LowerNumberLine();
+
+					//Remove Case sense just in case
+					if (playAgain == "Y" || playAgain == "y")
+					{
+						//PlayAgain Function goes here
+						do
+						{
+							ClearConsole();
+							MainMenu();
+							std::cin >> gameMode;
+							std::cin.ignore();
+
+							if (gameMode < 1 || gameMode > 5) NotAValidOption();
+							else startGame = true;
+						} while (gameMode < 1 || gameMode > 5 || startGame == false);
+					}
+					else ThanksForPlaying();
+				}
+			} while (startGame == true && gameMode == 2)
 			{
-				std::cout << "\n";
-				std::cout << "Number is " << randomnumberToGuess << "\n";
-				std::cout << "You have " << chances << " chances left\n";
-				std::cout << "Guess the number between 0 to 10: ";
-				std::cin >> userguess;
-				--chances;
-
-				//Higher
-				if (userguess < randomnumberToGuess)
+			case 2:									//Medium Mode
+				ClearConsole();
+				chances = 5;
+				randomnumberToGuess = (rand() % 50) + 1;
+				do
 				{
-					HigherNumberLine();
-				}
+					std::cout << "\n";
+					std::cout << "Number is " << randomnumberToGuess << "\n";
+					std::cout << "You have " << chances << " chances left\n";
+					std::cout << "Guess the number between 0 to 50: ";
+					std::cin >> userguess;
+					--chances;
 
-				//Lower
-				else if (userguess != randomnumberToGuess)
+					//Higher
+					if (userguess < randomnumberToGuess) HigherNumberLine();
+			
+					//Lower
+					else if (userguess != randomnumberToGuess) LowerNumberLine();
+					
+
+					if (userguess == randomnumberToGuess)
+					{
+						startGame = false; //this might need to be removed
+						std::cout << "\n";
+						std::cout << "-------------------------------------------------------------------------\n";
+						std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
+						std::cout << "-------------------------------------------------------------------------\n";
+						std::cout << "\n";
+						std::cout << "\n";
+						std::cout << "Would you like to play again? (Y/N): ";
+						std::cin.ignore();
+						std::getline(std::cin, playAgain);
+
+						if (playAgain == "Y" || playAgain == "y")
+						{
+							//PlayAgain Function goes here
+							do
+							{
+								ClearConsole();
+								MainMenu();
+								std::cin >> gameMode;
+								std::cin.ignore();
+
+								if (gameMode < 1 || gameMode > 5) NotAValidOption();
+								else startGame = true;
+							} while (gameMode < 1 || gameMode > 5 || startGame == false);
+						}
+						else ThanksForPlaying();
+					}
+				} while (userguess != randomnumberToGuess && chances != 0);
+
+				//Game lose Logic
+				if (chances == 0 && userguess != randomnumberToGuess)
 				{
-					LowerNumberLine();
-				}
+					GameOverMenu();
 
-				if (userguess == randomnumberToGuess)
-				{
-					startGame = false; //this might need to be removed
-
-					std::cout << "\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "\n";
-					std::cout << "\n";
-					std::cout << "Would you like to play again? (Y/N): ";
+					//readline logic here
 					std::cin.ignore();
 					std::getline(std::cin, playAgain);
 
@@ -148,332 +247,72 @@ int main()
 							std::cin >> gameMode;
 							std::cin.ignore();
 
-
-							if (gameMode < 1 || gameMode > 5)
-							{
-								NotAValidOption();
-							}
-							else
-							{
-								startGame = true;
-							}
+							if (gameMode < 1 || gameMode > 5) NotAValidOption();
+							else startGame = true;
 
 						} while (gameMode < 1 || gameMode > 5 || startGame == false);
 					}
-					else
-					{
-						//Exit Apllication
-						ThanksForPlaying();
-					}
+					else ThanksForPlaying();
 				}
-			} while (userguess != randomnumberToGuess && chances != 0);
-
-			//Game lose Logic
-			if (chances == 0 && userguess != randomnumberToGuess)
-			{
-				GameOverMenu();
-
-				//readline logic here
-				std::cin.ignore();
-				std::getline(std::cin, playAgain);
-
-
-				//Higher
-				if (userguess < randomnumberToGuess)
-				{
-					HigherNumberLine();
-				}
-
-				//Lower
-				else if (userguess != randomnumberToGuess)
-				{
-					LowerNumberLine();
-				}
-
-
-				if (playAgain == "Y" || playAgain == "y")
-				{
-					//PlayAgain Function goes here
-					do
-					{
-						ClearConsole();
-						MainMenu();
-						std::cin >> gameMode;
-						std::cin.ignore();
-
-						if (gameMode < 1 || gameMode > 5)
-						{
-							NotAValidOption();
-						}
-						else
-						{
-							startGame = true;
-						}
-
-					} while (gameMode < 1 || gameMode > 5 || startGame == false);
-				}
-				else
-				{
-					//Exit Apllication
-					ThanksForPlaying();
-				}
-			}
-			}
-
-			while (startGame == true && gameMode == 2)
-			{
-		case 2:									//Medium Mode
-			ClearConsole();
-			chances = 5;
-			randomnumberToGuess = (rand() % 50) + 1;
-			do
-			{
-				std::cout << "\n";
-				std::cout << "Number is " << randomnumberToGuess << "\n";
-				std::cout << "You have " << chances << " chances left\n";
-				std::cout << "Guess the number between 0 to 50: ";
-				std::cin >> userguess;
-				--chances;
-
-				//Higher
-				if (userguess < randomnumberToGuess)
-				{
-					HigherNumberLine();
-				}
-
-				//Lower
-				else if (userguess != randomnumberToGuess)
-				{
-					LowerNumberLine();
-				}
-
-				if (userguess == randomnumberToGuess)
-				{
-					startGame = false; //this might need to be removed
-
-					std::cout << "\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "\n";
-					std::cout << "\n";
-					std::cout << "Would you like to play again? (Y/N): ";
-					std::cin.ignore();
-					std::getline(std::cin, playAgain);
-
-					if (playAgain == "Y" || playAgain == "y")
-					{
-						//PlayAgain Function goes here
-						do
-						{
-							ClearConsole();
-							MainMenu();
-							std::cin >> gameMode;
-							std::cin.ignore();
-
-							if (gameMode < 1 || gameMode > 5)
-							{
-								NotAValidOption();
-							}
-							else
-							{
-								startGame = true;
-							}
-
-						} while (gameMode < 1 || gameMode > 5 || startGame == false);
-					}
-					else
-					{
-						//Exit Apllication
-						ThanksForPlaying();
-					}
-				}
-			} while (userguess != randomnumberToGuess && chances != 0);
-
-			//Game lose Logic
-			if (chances == 0 && userguess != randomnumberToGuess)
-			{
-				GameOverMenu();
-
-				//readline logic here
-				std::cin.ignore();
-				std::getline(std::cin, playAgain);
-
-				if (playAgain == "Y" || playAgain == "y")
-				{
-					//PlayAgain Function goes here
-					do
-					{
-						ClearConsole();
-						MainMenu();
-						std::cin >> gameMode;
-						std::cin.ignore();
-
-						if (gameMode < 1 || gameMode > 5)
-						{
-							NotAValidOption();
-						}
-						else
-						{
-							startGame = true;
-						}
-
-					} while (gameMode < 1 || gameMode > 5 || startGame == false);
-				}
-				else
-				{
-					//Exit Apllication
-					ThanksForPlaying();
-				}
-			}
-
 			while (startGame == true && gameMode == 3)
 			{
-		case 3:									//Hard Mode
-			ClearConsole();
-			chances = 5;
-			randomnumberToGuess = (rand() % 100) + 1;
-			do
-			{
-				std::cout << "\n";
-				std::cout << "Number is " << randomnumberToGuess << "\n";
-				std::cout << "You have " << chances << " chances left\n";
-				std::cout << "Guess the number between 0 to 100: ";
-				std::cin >> userguess;
-				--chances;
-
-				//Higher
-				if (userguess < randomnumberToGuess)
+			case 3:									//Hard Mode
+				ClearConsole();
+				chances = 5;
+				randomnumberToGuess = (rand() % 100) + 1;
+				do
 				{
-					HigherNumberLine();
-				}
-
-				//Lower
-				else if (userguess != randomnumberToGuess)
-				{
-					LowerNumberLine();
-				}
-
-
-				if (userguess == randomnumberToGuess)
-				{
-					startGame = false; //this might need to be removed
-
 					std::cout << "\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "\n";
-					std::cout << "\n";
-					std::cout << "Would you like to play again? (Y/N): ";
-					std::cin.ignore();
-					std::getline(std::cin, playAgain);
+					std::cout << "Number is " << randomnumberToGuess << "\n";
+					std::cout << "You have " << chances << " chances left\n";
+					std::cout << "Guess the number between 0 to 100: ";
+					std::cin >> userguess;
+					--chances;
 
-					if (playAgain == "Y" || playAgain == "y")
+					//Higher
+					if (userguess < randomnumberToGuess) HigherNumberLine();
+					
+					//Lower
+					else if (userguess != randomnumberToGuess) LowerNumberLine();
+					
+					if (userguess == randomnumberToGuess)
 					{
-						//PlayAgain Function goes here
-						do
-						{
-							ClearConsole();
-							MainMenu();
-							std::cin >> gameMode;
-							std::cin.ignore();
+						startGame = false; //this might need to be removed
 
-
-							if (gameMode < 1 || gameMode > 4)
-							{
-								NotAValidOption();
-							}
-							else
-							{
-								startGame = true;
-							}
-
-						} while (gameMode < 1 || gameMode > 5 || startGame == false);
-					}
-					else
-					{
-						//Exit Apllication
-						ThanksForPlaying();
-					}
-				}
-			} while (userguess != randomnumberToGuess && chances != 0);
-
-			//Game lose Logic
-			if (chances == 0 && userguess != randomnumberToGuess)
-			{
-				GameOverMenu();
-
-				//readline logic here
-				std::cin.ignore();
-				std::getline(std::cin, playAgain);
-
-				if (playAgain == "Y" || playAgain == "y")
-				{
-					//PlayAgain Function goes here
-					do
-					{
-						ClearConsole();
-						MainMenu();
-						std::cin >> gameMode;
+						std::cout << "\n";
+						std::cout << "-------------------------------------------------------------------------\n";
+						std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
+						std::cout << "-------------------------------------------------------------------------\n";
+						std::cout << "\n";
+						std::cout << "\n";
+						std::cout << "Would you like to play again? (Y/N): ";
 						std::cin.ignore();
+						std::getline(std::cin, playAgain);
 
-						if (gameMode < 1 || gameMode > 5)
+						if (playAgain == "Y" || playAgain == "y")
 						{
-							NotAValidOption();
+							//PlayAgain Function goes here
+							do
+							{
+								ClearConsole();
+								MainMenu();
+								std::cin >> gameMode;
+								std::cin.ignore();
+
+								if (gameMode < 1 || gameMode > 5) NotAValidOption();
+								else startGame = true;
+							} while (gameMode < 1 || gameMode > 5 || startGame == false);
 						}
-						else
-						{
-							startGame = true;
-						}
+						else ThanksForPlaying();
+					}
+				} while (userguess != randomnumberToGuess && chances != 0);
 
-					} while (gameMode < 1 || gameMode > 5 || startGame == false);
-				}
-				else
+				//Game lose Logic
+				if (chances == 0 && userguess != randomnumberToGuess)
 				{
-					//Exit Apllication
-					ThanksForPlaying();
-				}
-			}
+					GameOverMenu();
 
-			while (startGame == true && gameMode == 4)
-			{
-		case 4:									//Extreme Mode
-			ClearConsole();
-			chances = 5;
-			randomnumberToGuess = (rand() % 1000) + 1;
-			do
-			{
-				std::cout << "\n";
-				std::cout << "Number is " << randomnumberToGuess << "\n";
-				std::cout << "You have " << chances << " chances left\n";
-				std::cout << "Guess the number between 0 to 1000: ";
-				std::cin >> userguess;
-				--chances;
-
-				//Higher
-				if (userguess < randomnumberToGuess)
-				{
-					HigherNumberLine();
-				}
-
-				//Lower
-				else if (userguess != randomnumberToGuess)
-				{
-					LowerNumberLine();
-				}
-
-				if (userguess == randomnumberToGuess)
-				{
-					startGame = false; //this might need to be removed
-
-					std::cout << "\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
-					std::cout << "-------------------------------------------------------------------------\n";
-					std::cout << "\n";
-					std::cout << "\n";
-					std::cout << "Would you like to play again? (Y/N): ";
+					//readline logic here
 					std::cin.ignore();
 					std::getline(std::cin, playAgain);
 
@@ -491,69 +330,103 @@ int main()
 							{
 								NotAValidOption();
 							}
-							else
-							{
-								startGame = true;
-
-							}
-
+							else startGame = true;
 						} while (gameMode < 1 || gameMode > 5 || startGame == false);
 					}
-					else
+					else ThanksForPlaying();
+				}
+
+				while (startGame == true && gameMode == 4)
+				{
+				case 4:									//Extreme Mode
+					ClearConsole();
+					chances = 5;
+					randomnumberToGuess = (rand() % 1000) + 1;
+					do
 					{
-						//Exit Apllication
-						ThanksForPlaying();
+						std::cout << "\n";
+						std::cout << "Number is " << randomnumberToGuess << "\n";
+						std::cout << "You have " << chances << " chances left\n";
+						std::cout << "Guess the number between 0 to 1000: ";
+						std::cin >> userguess;
+						--chances;
+
+						//Higher
+						if (userguess < randomnumberToGuess) HigherNumberLine();
+					
+						//Lower
+						else if (userguess != randomnumberToGuess) LowerNumberLine();
+				
+
+						if (userguess == randomnumberToGuess)
+						{
+							startGame = false; //this might need to be removed
+
+							std::cout << "\n";
+							std::cout << "-------------------------------------------------------------------------\n";
+							std::cout << "   You have guessed correctly the number was " << randomnumberToGuess << " with " << chances << " chances left!\n";
+							std::cout << "-------------------------------------------------------------------------\n";
+							std::cout << "\n";
+							std::cout << "\n";
+							std::cout << "Would you like to play again? (Y/N): ";
+							std::cin.ignore();
+							std::getline(std::cin, playAgain);
+
+							if (playAgain == "Y" || playAgain == "y")
+							{
+								//PlayAgain Function goes here
+								do
+								{
+									ClearConsole();
+									MainMenu();
+									std::cin >> gameMode;
+									std::cin.ignore();
+										
+									if (gameMode < 1 || gameMode > 5) NotAValidOption();
+								else startGame = true;
+						} while (gameMode < 1 || gameMode > 5 || startGame == false);
 					}
+					else ThanksForPlaying();
 				}
 			} while (userguess != randomnumberToGuess && chances != 0);
 
-			//Game lose Logic
-			if (chances == 0 && userguess != randomnumberToGuess)
-			{
-				GameOverMenu();
-
-				//readline logic here
-				std::cin.ignore();
-				std::getline(std::cin, playAgain);
-
-				if (playAgain == "Y" || playAgain == "y")
+				//Game lose Logic
+				if (chances == 0 && userguess != randomnumberToGuess)
 				{
-					//PlayAgain Function goes here
-					do
+					GameOverMenu();
+
+					//readline logic here
+					std::cin.ignore();
+					std::getline(std::cin, playAgain);
+
+					if (playAgain == "Y" || playAgain == "y")
 					{
-						ClearConsole();
-						MainMenu();
-						std::cin >> gameMode;
-						std::cin.ignore();
-
-						if (gameMode < 1 || gameMode > 5)
+						//PlayAgain Function/Logic goes here
+						do
 						{
-							NotAValidOption();
-						}
-						else
-						{
-							startGame = true;
-						}
+							ClearConsole();
+							MainMenu();
+							std::cin >> gameMode;
+							std::cin.ignore();
 
+							if (gameMode < 1 || gameMode > 5) NotAValidOption();
+							else startGame = true;
 					} while (gameMode < 1 || gameMode > 5 || startGame == false);
 				}
-				else
-				{
-					//Exit Apllication
-					ThanksForPlaying();
-				}
+				else ThanksForPlaying();
+
 			}
 
-			if (gameMode == 5)
-			{
-		case 5:
-			ThanksForPlaying();
-			break;
-		default:
-			break;
-			}
-			}
-			}
+				if (gameMode == 5)
+				{
+					case 5:
+						ThanksForPlaying();
+						break;
+				}
+				//	default:
+				//		break;
+				}
+				}
 			}
 		}
 	}
